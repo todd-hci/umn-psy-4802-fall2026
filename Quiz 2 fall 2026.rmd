@@ -1,0 +1,62 @@
+---
+title: "Quiz 2"
+author: "Amanda Mae Woodward"
+date: "2026-11-03"
+output: html_document
+---
+
+
+This quiz will focus on data frame manipulation, however, you may need to rely on skills you've learned in prior weeks. 
+
+1. load the starwars dataset from tidyverse
+```{r}
+library(tidyverse)
+data(starwars)
+```
+
+
+2. separate the films column so that there is one film in each column (don't worry about the "c(" and ) at the end for now)
+```{r}
+starwars2<-starwars |>
+  mutate(films=as.character(films)) |>
+  separate(films, into = c("film1", "film2", "film3", "film4", "film5", "film6", "film7"), sep=",", fill="right")
+```
+
+
+3. alter the data from wide data to long data
+```{r}
+starwars2 <- starwars2 |>
+  pivot_longer(cols = film1:film7, names_to = "film_number", values_to = "film")
+```
+
+
+4. in the column where you stored the films, rename the levels so each film name is consistent (e.g. get rid of the "c(" and ")" )
+```{r}
+starwars2$film <- factor(
+  starwars2$film,
+  levels = unique(starwars2$film),
+  labels = c("A New Hope", "The Empire Strikes Back", "Return of the Jedi", "Revenge of the Sith", "The Force Awakens", "The Phantom Menace", "Attack of the Clones", "Revenge of the Sith", "A New Hope", "The Phantom Menace", "The Phantom Menace", "Return of the Jedi", "The Empire Strikes Back", "Attack of the Clones", "The Empire Strikes Back", "Return of the Jedi", "Return of the Jedi", "The Phantom Menace", "Attack of the Clones", "Attack of the Clones", "Revenge of the Sith", "The Force Awakens"))
+```
+
+
+5. Create a column in your dataset that indicates whether a character was in the first starwars film, *Star Wars Episode IV: A New Hope* 
+```{r}
+starwars2$in_new_hope <- ifelse(
+  starwars2$film == "A New Hope", "Yes", "No"
+)
+```
+
+
+6. BMI is calculated as mass in Kg/height in meters squared. You currently have mass in Kg and height in cm. Create a column that contains each character's BMI. 
+```{r}
+starwars_bmi <- starwars |>
+  mutate(BMI = mass / (height/ 100)^2)
+```
+
+
+7. create a dataframe that contains only the name, hair color, and eye color for each character. 
+```{r}
+starwars_colors <- starwars|>
+  select(name, hair_color, eye_color)
+```
+
