@@ -1,0 +1,43 @@
+---
+title: "Participation 11/17"
+author: "Ruiying Zhou"
+date: "2026-11-17"
+output: html_document
+---
+Code to be fixed:
+scenario 1:
+```
+mean(mtcars$mpg
+sd(mtcars$hp)
+```
+
+scenario 2:
+```
+ggplot(mtcars, aes(mpg, hp))+geom_bar()
+```
+
+scenario 3:
+```
+lm1 <- lm(hp ~mpg, data = mtcars)
+summarise(lm1)
+```
+
+Solved codes:
+scenario 1:
+```{r}
+data(mtcars)
+mean(mtcars$mpg)
+sd(mtcars$mpg)
+```
+
+scenario 2:
+```{r}
+library(ggplot2)
+ggplot(mtcars, aes(mpg, hp))+geom_point()
+```
+
+scenario 3:
+```{r}
+lm1 <- lm(mpg ~hp, data = mtcars)
+summary(lm1)
+```
