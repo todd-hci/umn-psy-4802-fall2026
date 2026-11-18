@@ -1,0 +1,74 @@
+---
+title: "Statistics in R Assignment"
+author: "Amanda Mae Woodward"
+date: "2026-11-05"
+output: html_document
+---
+
+1. Open the diamonds dataset from ggplot2.   
+```{r}
+library(tidyverse)
+data(diamonds)
+```
+
+2. Run a correlation between the x and y variables. What do you notice? 
+```{r}
+cor(diamonds$x, diamonds$y)
+```
+The correlation (0.97) is very strong and positive, which means that as x increases, y also increase.
+
+3. What is the correlation between price and carat?
+```{r}
+cor(diamonds$price, diamonds$carat)
+```
+The correlation is approximately 0.92, which means that as carat increases, price also increases.
+
+4. Create a linear model predicting price from table. What is the coefficient for table? 
+```{r}
+lm1 <- lm(price ~table, data = diamonds)
+summary(lm1)
+```
+The coefficient for table is 226.984.
+
+5. Run a regression and an Anova predicting price from color. What do you notice about the two types of output? 
+```{r}
+lm2 <-lm(price ~color, data = diamonds)
+summary(lm2)
+
+aov1 <-aov(price ~color, data = diamonds)
+summary(aov1)
+```
+Both regression and ANOVA show a same F-statistic of 290.2.
+
+6. Run a t test to determine if "D" color diamonds are more expensive than "E" color diamonds. 
+```{r}
+diamonds2 <-diamonds |>
+  filter(color=="D" |
+           color=="E")
+
+t.test(price ~color, data = diamonds2, alternative ="greater")
+```
+
+7. Open the warpbreaks dataset. What test would you use to determine the correlation between wool type and breaks?
+```{r}
+data(warpbreaks)
+```
+I would use a biserial correlation.
+
+8. What is the correlation between wool type and breaks? 
+```{r}
+warpbreaks$wool2 <-as.factor(warpbreaks$wool)
+
+levels(warpbreaks$wool2)<-c(0,1)
+
+warpbreaks$wool2<- as.numeric(levels(warpbreaks$wool2)[warpbreaks$wool2])
+
+cor(warpbreaks$breaks, warpbreaks$wool2)
+```
+The correlation is approximately -0.22, which means that wool type B has fewer breaks than wool type A.
+
+9. A student has a 35 question, multiple choice test. Each question has 4 choices. If they answered 17 questions correctly, did their responses differ from chance?  
+```{r}
+binom.test(17, 35, .25)
+```
+Yes. p = 0.002722.
